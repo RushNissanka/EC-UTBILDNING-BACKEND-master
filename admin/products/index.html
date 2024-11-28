@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Produkter</title>
+    <link rel="stylesheet" href="/public/stylesheets/styles.css">
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main container with sidebar and content */
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 20px 0;
+            font-size: 22px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Content area styles */
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .content h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Button style */
+        .new-product-btn {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            float: right;
+            margin-bottom: 10px;
+        }
+
+        .new-product-btn:hover {
+            background-color: #555;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                text-align: center;
+            }
+
+            .new-product-btn {
+                float: none;
+                display: block;
+                margin: 0 auto 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content h1 {
+                font-size: 20px;
+            }
+
+            .new-product-btn {
+                font-size: 16px;
+                width: 100%; /* Full width button */
+            }
+
+            /* Make the table scrollable horizontally */
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Administration</h2>
+            <ul>
+                <li><a href="#">Produkter</a></li>
+                <!-- Add more menu items as needed -->
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <div class="content">
+            <h1>Produkter</h1>
+
+            <!-- New Product Button -->
+            <a href="/admin/products/new.html">
+                <button class="new-product-btn">Ny produkt</button>
+            </a>
+
+            <!-- Products Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Namn</th>
+                        <th>SKU</th>
+                        <th>Pris</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Svart T-Shirt</td>
+                        <td>AAA111</td>
+                        <td>199</td>
+                    </tr>
+                    <tr>
+                        <td>Vit T-Shirt</td>
+                        <td>BBB111</td>
+                        <td>199</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                    <tr>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
