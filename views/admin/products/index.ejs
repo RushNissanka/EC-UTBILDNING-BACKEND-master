@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Produkter</title>
     <!-- Use admin-specific styles -->
-    <link rel="stylesheet" href="/stylesheets/admin-styles.css">
+    <link rel="stylesheet" href="/public/stylesheets/styles.css">
     <style>
         /* Basic styles */
         body {
@@ -158,7 +158,7 @@
 
             <!-- Button Group -->
             <div class="button-group">
-                <a href="/admin/products/new.html" class="new-product-btn">Ny produkt</a>
+                <a href="/admin/products/new" class="new-product-btn">Ny produkt</a>
                 <button id="load-products-btn" class="new-product-btn">Ladda produkter</button>
             </div>
 
@@ -191,7 +191,7 @@
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td>${product.title}</td>
-                            <td>${product.SKU}</td> <!-- Changed vendor to SKU -->
+                            <td>${product.SKU}</td> <!-- Changed brand to SKU -->
                             <td>${product.price}</td>
                         `;
                         tbody.appendChild(tr);
