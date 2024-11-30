@@ -26,20 +26,45 @@ router.get('/', (req, res) => {
 router.get('/product/:slug', (req, res) => {
   const productSlug = req.params.slug;
 
-  // Fetch the product based on the slug from the database
-  db.get("SELECT * FROM products WHERE slug = ?", [productSlug], (err, product) => {
-    if (err || !product) {
-      console.error("Product not found:", err ? err.message : "No product with that slug");
-      return res.status(404).send("Product not found");
+  // Ensure the database schema includes the 'slug' column
+  db.all("PRAGMA table_info(products)", [], (err, columns) => {
+    if (err) {
+      console.error("Error fetching table schema:", err.message);
+      return res.status(500).send("Internal server error");
     }
 
-    // Fetch similar products to display
-    db.all("SELECT * FROM products WHERE slug != ? LIMIT 3", [productSlug], (err, similarProducts) => {
+    // Ensure the query result is valid and processable
+    if (!Array.isArray(columns)) {
+      console.error("Unexpected table schema response:", columns);
+      return res.status(500).send("Internal server error");
+    }
+
+    const columnNames = columns.map((col) => col.name);
+    if (!columnNames.includes('slug')) {
+      console.error("The 'slug' column is not present in the database schema.");
+      return res.status(500).send("Internal server error: Missing 'slug' column");
+    }
+
+    // Fetch the product using the slug
+    db.get("SELECT * FROM products WHERE slug = ?", [productSlug], (err, product) => {
       if (err) {
-        console.error("Failed to retrieve similar products:", err.message);
-        return res.status(500).send("Failed to retrieve similar products");
+        console.error("Error fetching product:", err.message);
+        return res.status(500).send("Internal server error");
       }
-      res.render('product-details', { product, similarProducts }); // Pass data to product-details.ejs
+
+      if (!product) {
+        console.error("Product not found with slug:", productSlug);
+        return res.status(404).send("Product not found");
+      }
+
+      // Fetch similar products to display
+      db.all("SELECT * FROM products WHERE slug != ? LIMIT 3", [productSlug], (err, similarProducts) => {
+        if (err) {
+          console.error("Failed to retrieve similar products:", err.message);
+          return res.status(500).send("Failed to retrieve similar products");
+        }
+        res.render('product-details', { product, similarProducts }); // Pass data to product-details.ejs
+      });
     });
   });
 });
