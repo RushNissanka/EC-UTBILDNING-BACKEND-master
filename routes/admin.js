@@ -33,16 +33,19 @@ router.post('/products/new', express.json(), (req, res) => {
         return res.status(400).json({ error: 'Please fill in all required fields.' });
     }
 
+    // Generate slug from the product name
+    const slug = name.toLowerCase().replace(/ /g, '-');
+
     // Handle categories (ensure it's converted to a string)
     const categoriesStr = Array.isArray(categories) ? categories.join(', ') : categories || '';
 
     // Insert data into SQLite database
     const db = new sqlite3.Database('./db/products.db');
     const query = `
-        INSERT INTO products (title, description, price, sku, image, brand, categories)
-        VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        INSERT INTO products (title, description, price, sku, image, brand, categories, slug)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    db.run(query, [name, description, price, sku, image, brand, categoriesStr], function (err) {
+    db.run(query, [name, description, price, sku, image, brand, categoriesStr, slug], function (err) {
         if (err) {
             console.error('Failed to save product:', err.message);
             return res.status(500).json({ error: 'Failed to save product.' });
