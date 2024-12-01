@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose(); //Import sqlite3 for database operations
 
 // Route for the admin products page
 router.get('/products', (req, res) => {
-    const db = new sqlite3.Database('./db/products.db');
+    const db = new sqlite3.Database('./db/products.db'); // Open the database connection
 
+// Query the database to retrieve product details
     db.all('SELECT title, sku, price FROM products', [], (err, rows) => {
         if (err) {
-            console.error('Failed to retrieve products:', err.message);
-            return res.status(500).render('error', { message: 'Failed to load products.' });
+            console.error('Failed to retrieve products:', err.message);                         // Log error if query fails
+            return res.status(500).render('error', { message: 'Failed to load products.' });   // Show error page
         }
 
-        // Pass the rows (products) to the view
+// Renders admin products page and pass retrieved products to the view
         res.render('admin/products/index', { products: rows });
     });
 
-    db.close();
+    db.close();     // Closes the database connection after retrieving and sending data to the user, like ending a phone call to free the line.
 });
 
 // Route to render the "new product" form
@@ -55,7 +56,7 @@ router.post('/products/new', express.json(), (req, res) => {
         res.status(200).json({ message: 'Product saved successfully.' });
     });
 
-    db.close();
+    db.close(); // Closes the database connection after retrieving and sending data to the user, like ending a phone call to free the line.
 });
 
 // API endpoint to get products
@@ -70,7 +71,7 @@ router.get('/api/products', (req, res) => {
         res.json(rows);
     });
 
-    db.close();
+    db.close(); // Closes the database connection after retrieving and sending data to the user, like ending a phone call to free the line.
 });
 
-module.exports = router;
+module.exports = router; // Shares the router, like a delivery driver sharing a map, so the main server (the app) knows where to send requests for this part of the website.
